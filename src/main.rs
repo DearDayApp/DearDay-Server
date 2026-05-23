@@ -1,29 +1,29 @@
-use anyhow::Result;
-use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt, EnvFilter};
-
-mod error;
-mod routes;
-mod state;
+use anyhow::{Context, Result};
+use dearday::{init_tracing, run, Config};
+use sqlx::postgres::PgPoolOptions;
+use tokio::net::TcpListener;
 
 #[tokio::main]
 async fn main() -> Result<()> {
     dotenvy::dotenv().ok();
+    init_tracing();
 
-    tracing_subscriber::registry()
-        .with(
-            EnvFilter::try_from_default_env()
-                .unwrap_or_else(|_| "dearday=debug,tower_http=debug".into()),
-        )
-        .with(tracing_subscriber::fmt::layer())
-        .init();
+    let config = Config::from_env()?;
 
-    let state = state::AppState::new();
-    let app = routes::router(state);
+    let pool = PgPoolOptions::new()
+        .max_connections(10)
+        .connect(&config.database_url)
+        .await
+        .context("failed to connect to database")?;
+    tracing::info!("connected to database");
 
-    let addr = std::env::var("BIND_ADDR").unwrap_or_else(|_| "0.0.0.0:3000".to_string());
-    let listener = tokio::net::TcpListener::bind(&addr).await?;
-    tracing::info!("listening on {}", addr);
-    axum::serve(listener, app).await?;
+    sqlx::migrate!("./migrations")
+        .run(&pool)
+        .await
+        .context("failed to run migrations")?;
 
-    Ok(())
+    let listener = TcpListener::bind(&config.bind_addr).await?;
+    tracing::info!("listening on {}", config.bind_addr);
+
+    run(listener, pool).await
 }

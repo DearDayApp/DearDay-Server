@@ -1,26 +1,21 @@
 use std::sync::Arc;
 
+use sqlx::PgPool;
+
 #[derive(Clone)]
 pub struct AppState {
     inner: Arc<AppStateInner>,
 }
 
-#[allow(dead_code)]
 pub struct AppStateInner {
-    // 데이터 모델 정해지면 여기에 DB pool, config 등 추가
+    pub db: PgPool,
 }
 
 impl AppState {
-    pub fn new() -> Self {
+    pub fn new(db: PgPool) -> Self {
         Self {
-            inner: Arc::new(AppStateInner {}),
+            inner: Arc::new(AppStateInner { db }),
         }
-    }
-}
-
-impl Default for AppState {
-    fn default() -> Self {
-        Self::new()
     }
 }
 
