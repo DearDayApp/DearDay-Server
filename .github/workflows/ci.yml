@@ -35,8 +35,9 @@ jobs:
 
       - uses: actions-rust-lang/setup-rust-toolchain@v1
 
-      - name: Install sqlx-cli
-        run: cargo install sqlx-cli --version 0.9.0 --no-default-features --features postgres,rustls --locked
+      - uses: taiki-e/install-action@v2
+        with:
+          tool: sqlx-cli@0.9.0
 
       - name: Apply migrations
         run: sqlx migrate run
