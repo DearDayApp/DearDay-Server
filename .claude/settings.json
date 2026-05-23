@@ -1,0 +1,16 @@
+{
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/jiwon/Desktop/projects/dearday/.claude/hooks/cargo-build.sh",
+            "timeout": 300,
+            "statusMessage": "Running cargo build..."
+          }
+        ]
+      }
+    ]
+  }
+}
