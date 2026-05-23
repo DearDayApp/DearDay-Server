@@ -62,11 +62,12 @@ If a single file legitimately spans multiple concerns, use `git add -p <file>` f
 
 Fill sections from the commits just made and test results from step 2.
 
-**Show the proposed title + body to the user and ask for explicit approval. Do not push until they confirm.** They may request edits — apply them and re-show.
+Write the PR title and body in Korean (한국어). Commit messages stay in English; only the PR description is Korean.
+
+Push and create the PR directly — no approval step. The user will review on GitHub and request edits there if needed.
 
 ### 5. Push + open PR
 
-After approval:
 1. `git push -u origin <branch>`
 2. `gh pr create --base develop --title "<title>" --body "$(cat <<'EOF' ... EOF)"` using the approved body. `--base develop` is required for this repo.
 3. Return the PR URL to the user.

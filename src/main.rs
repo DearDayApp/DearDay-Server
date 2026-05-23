@@ -1,5 +1,5 @@
 use anyhow::{Context, Result};
-use dearday::{init_tracing, run, Config};
+use dearday::{Config, init_tracing, run};
 use sqlx::postgres::PgPoolOptions;
 use tokio::net::TcpListener;
 

@@ -155,7 +155,7 @@ async fn list(State(users): State<Users>) -> ApiResult<Json<Vec<User>>> {
 | Unique violation | 409 Conflict |
 | 그 외 전부 | 500 Internal Server Error |
 
-validation 에러는 `ApiError::BadRequest(msg)`를 직접 반환한다.
+validation 에러가 필요해지면 `ApiError`에 `BadRequest(String)` variant를 추가하고 400으로 매핑한다 (현재는 미사용이라 정의돼 있지 않음).
 
 ## 새 리소스 추가하는 법
 
@@ -268,7 +268,7 @@ cargo run
 ### 에러 처리
 - 핸들러는 `ApiResult<T>` 반환
 - `?` 자유롭게 사용 (`From<sqlx::Error>` 구현되어 있음)
-- validation 실패: `Err(ApiError::BadRequest("...".into()))`
+- validation 실패: `BadRequest` variant를 추가한 뒤 `Err(ApiError::BadRequest("...".into()))` 반환
 - 로깅: `tracing::{info, warn, error, debug}!` — **`println!` 금지**
 
 ### 주석
