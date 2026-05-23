@@ -16,7 +16,7 @@ Run every step in order. Stop and report if anything fails.
 - `git status` — list untracked + modified files.
 - `git log --oneline origin/HEAD..HEAD` — local commits not yet pushed.
 - `git diff origin/HEAD...HEAD` — full diff vs base (use this to plan commits later).
-- Detect base branch from `origin/HEAD`; fall back to `main`.
+- Base branch is `develop` for this repo. PRs must target `develop`, not `main`.
 - If the current branch **is** the base branch, ask the user for a new branch name and create it before continuing.
 
 ### 2. Build + test
@@ -68,7 +68,7 @@ Fill sections from the commits just made and test results from step 2.
 
 After approval:
 1. `git push -u origin <branch>`
-2. `gh pr create --title "<title>" --body "$(cat <<'EOF' ... EOF)"` using the approved body.
+2. `gh pr create --base develop --title "<title>" --body "$(cat <<'EOF' ... EOF)"` using the approved body. `--base develop` is required for this repo.
 3. Return the PR URL to the user.
 
 ## Hard rules
