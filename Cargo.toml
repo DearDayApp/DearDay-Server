@@ -6,6 +6,8 @@ edition = "2024"
 [dependencies]
 anyhow = "1.0.102"
 axum = "0.8.9"
+axum-prometheus = "0.10.0"
+metrics-process = "2.4.3"
 chrono = { version = "0.4.44", default-features = false, features = ["serde", "clock"] }
 dotenvy = "0.15.7"
 moka = { version = "0.12.15", features = ["future"] }

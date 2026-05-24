@@ -1,3 +1,6 @@
 dearday-dev.p-e.kr {
+    handle /metrics {
+        respond 404
+    }
     reverse_proxy app:3000
 }
