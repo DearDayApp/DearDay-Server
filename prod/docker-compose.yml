@@ -26,6 +26,8 @@ services:
       BIND_ADDR: 0.0.0.0:3000
       RUST_LOG: ${RUST_LOG:-dearday=debug,tower_http=debug}
       DATABASE_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
+      JWT_ACCESS_SECRET: ${JWT_ACCESS_SECRET}
+      JWT_REFRESH_SECRET: ${JWT_REFRESH_SECRET}
 
   caddy:
     image: caddy:2-alpine
