@@ -261,9 +261,12 @@ cargo run
 - 항상 `sqlx::query_as!` 매크로 사용 (컴파일 타임 검증)
 - 여러 줄 쿼리: `r#" ... "#` raw string에 들여쓰기로 작성
 - **`SELECT *` 금지** — 모든 컬럼을 명시한다
-- 컴파일 시점에 DB가 떠 있어야 한다. DB가 없는 환경(CI 등)에서는
-  `cargo sqlx prepare`로 쿼리 캐시(`.sqlx/`)를 생성해두고
+- 컴파일 시점에 DB가 떠 있어야 한다. Docker 이미지 빌드는 격리된 환경이라
+  DB에 접근 불가 → `.sqlx/` 오프라인 캐시를 레포에 커밋해두고
   `SQLX_OFFLINE=true`로 빌드한다.
+- **쿼리(`query!`/`query_as!`) 추가·수정·삭제 후에는 반드시 `cargo sqlx prepare`를
+  실행하고 `.sqlx/` 변경분을 같은 커밋에 포함시킨다**. 캐시가 코드와 어긋나면
+  Docker 빌드가 깨지고 CI의 `cargo sqlx prepare --check`도 빨간불이 된다.
 
 ### 에러 처리
 - 핸들러는 `ApiResult<T>` 반환
