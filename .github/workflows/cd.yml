@@ -57,7 +57,7 @@ jobs:
           VM_SSH_KEY: ${{ secrets.VM_SSH_KEY }}
         run: |
           mkdir -p ~/.ssh
-          printf '%s' "$VM_SSH_KEY" > ~/.ssh/deploy_key
+          printf '%s\n' "$VM_SSH_KEY" > ~/.ssh/deploy_key
           chmod 600 ~/.ssh/deploy_key
           ssh-keyscan -H "${{ secrets.VM_HOST }}" >> ~/.ssh/known_hosts
 
