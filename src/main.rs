@@ -1,5 +1,5 @@
 use anyhow::{Context, Result};
-use dearday::{Config, init_tracing, run};
+use dearday::{AppState, Config, init_tracing, run};
 use sqlx::postgres::PgPoolOptions;
 use tokio::net::TcpListener;
 
@@ -25,5 +25,6 @@ async fn main() -> Result<()> {
     let listener = TcpListener::bind(&config.bind_addr).await?;
     tracing::info!("listening on {}", config.bind_addr);
 
-    run(listener, pool).await
+    let state = AppState::new(&config, pool);
+    run(listener, state).await
 }

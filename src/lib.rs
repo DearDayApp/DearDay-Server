@@ -3,7 +3,6 @@ use std::sync::OnceLock;
 use anyhow::Result;
 use axum_prometheus::{PrometheusMetricLayer, metrics_exporter_prometheus::PrometheusHandle};
 use metrics_process::Collector;
-use sqlx::PgPool;
 use tokio::net::TcpListener;
 use tracing_subscriber::{EnvFilter, layer::SubscriberExt, util::SubscriberInitExt};
 
@@ -41,8 +40,7 @@ pub fn init_metrics() -> (PrometheusMetricLayer<'static>, PrometheusHandle, Coll
     (layer.clone(), handle.clone(), collector.clone())
 }
 
-pub async fn run(listener: TcpListener, pool: PgPool) -> Result<()> {
-    let state = AppState::new(pool);
+pub async fn run(listener: TcpListener, state: AppState) -> Result<()> {
     let app = routes::router(state);
     axum::serve(listener, app).await?;
     Ok(())
