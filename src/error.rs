@@ -11,6 +11,12 @@ pub type ApiResult<T> = Result<T, ApiError>;
 #[derive(Debug, Error)]
 pub enum ApiError {
     #[error("{0}")]
+    BadRequest(String),
+
+    #[error("{0}")]
+    Unauthorized(String),
+
+    #[error("{0}")]
     NotFound(String),
 
     #[error("{0}")]
@@ -35,6 +41,8 @@ impl From<sqlx::Error> for ApiError {
 impl IntoResponse for ApiError {
     fn into_response(self) -> Response {
         let (status, message) = match &self {
+            ApiError::BadRequest(msg) => (StatusCode::BAD_REQUEST, msg.clone()),
+            ApiError::Unauthorized(msg) => (StatusCode::UNAUTHORIZED, msg.clone()),
             ApiError::NotFound(msg) => (StatusCode::NOT_FOUND, msg.clone()),
             ApiError::Conflict(msg) => (StatusCode::CONFLICT, msg.clone()),
             ApiError::Internal(err) => {

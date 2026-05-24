@@ -1,0 +1,53 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n            SELECT u.id AS user_id, u.is_deleted, u.current_refresh_jti\n            FROM user_providers up\n            JOIN users u ON u.id = up.user_id\n            WHERE up.provider = $1 AND up.provider_id = $2\n            ",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "user_id",
+        "type_info": "Uuid",
+        "origin": {
+          "Table": {
+            "table": "users",
+            "name": "id"
+          }
+        }
+      },
+      {
+        "ordinal": 1,
+        "name": "is_deleted",
+        "type_info": "Bool",
+        "origin": {
+          "Table": {
+            "table": "users",
+            "name": "is_deleted"
+          }
+        }
+      },
+      {
+        "ordinal": 2,
+        "name": "current_refresh_jti",
+        "type_info": "Uuid",
+        "origin": {
+          "Table": {
+            "table": "users",
+            "name": "current_refresh_jti"
+          }
+        }
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Text",
+        "Text"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      true
+    ]
+  },
+  "hash": "a606521e8ea806466b924042067a388431b75d9ff369785bb99d57f0bc7d09ff"
+}
