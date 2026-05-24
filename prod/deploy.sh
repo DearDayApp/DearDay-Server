@@ -23,4 +23,12 @@ echo "$GHCR_TOKEN" | docker login ghcr.io -u "$GHCR_USER" --password-stdin
 export IMAGE_TAG
 docker compose pull
 docker compose up -d --remove-orphans
+
+# Caddyfile is a mounted file, not part of the compose container spec, so
+# `up -d` won't recreate caddy when the file changes. Live-reload instead.
+if docker compose ps --status running --services | grep -q '^caddy$'; then
+    docker compose exec -T caddy caddy reload \
+        --config /etc/caddy/Caddyfile --adapter caddyfile
+fi
+
 docker image prune -f
