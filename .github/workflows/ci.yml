@@ -42,4 +42,7 @@ jobs:
       - name: Apply migrations
         run: sqlx migrate run
 
+      - name: Verify .sqlx/ cache is up to date
+        run: cargo sqlx prepare --check
+
       - run: cargo test --no-fail-fast
