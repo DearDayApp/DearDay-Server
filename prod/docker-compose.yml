@@ -41,7 +41,7 @@ services:
       - caddy_config:/config
 
   prometheus:
-    image: prom/prometheus:v3.1.0
+    image: prom/prometheus:v3.11.3
     restart: unless-stopped
     depends_on:
       - app
@@ -50,7 +50,7 @@ services:
       - prometheus_data:/prometheus
 
   grafana:
-    image: grafana/grafana:11.5.0
+    image: grafana/grafana:13.1.0
     restart: unless-stopped
     depends_on:
       - prometheus
