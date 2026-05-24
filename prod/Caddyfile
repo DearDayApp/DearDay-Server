@@ -2,5 +2,8 @@ dearday-dev.p-e.kr {
     handle /metrics {
         respond 404
     }
+    handle /monitor* {
+        reverse_proxy grafana:3000
+    }
     reverse_proxy app:3000
 }
