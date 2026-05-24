@@ -7,7 +7,9 @@ edition = "2024"
 anyhow = "1.0.102"
 axum = "0.8.9"
 axum-prometheus = "0.10.0"
+jsonwebtoken = { version = "10.4.0", features = ["rust_crypto"] }
 metrics-process = "2.4.3"
+reqwest = { version = "0.13.3", default-features = false, features = ["json", "rustls"] }
 chrono = { version = "0.4.44", default-features = false, features = ["serde", "clock"] }
 dotenvy = "0.15.7"
 moka = { version = "0.12.15", features = ["future"] }
@@ -23,4 +25,4 @@ tracing-subscriber = { version = "0.3.23", features = ["env-filter"] }
 uuid = { version = "1.23.1", features = ["serde", "v4"] }
 
 [dev-dependencies]
-reqwest = { version = "0.13.3", features = ["json"] }
+wiremock = "0.6"
